@@ -15,7 +15,7 @@ Application::~Application()
 {
 }
 
-bool Application::createWindow(const char* pTitle, unsigned int pWidth, unsigned int pHeight, bool pFullscreen)
+bool Application::createWindow(const char* pTitle, const unsigned int pWidth, const unsigned int pHeight, const bool pFullscreen)
 {
 	if (glfwInit() == false)
 		return false;
@@ -54,7 +54,7 @@ void Application::destroyWindow()
 	glfwTerminate();
 }
 
-void Application::run(const char* pTitle, unsigned int pWidth, unsigned int pHeight, bool pFullscreen)
+void Application::run(const char* pTitle, const unsigned int pWidth, const unsigned int pHeight, const bool pFullscreen)
 {
 	// Starts the game loop upon successful initialisation
 	if (createWindow(pTitle, pWidth, pHeight, pFullscreen) && startup())
@@ -113,17 +113,17 @@ void Application::clearScreen()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void Application::setBackgroundColour(float pR, float pG, float pB, float pA)
+void Application::setBackgroundColour(const float pR, const float pG, const float pB, const float pA)
 {
 	glClearColor(pR, pG, pG, pA);
 }
 
-void Application::setShowCursor(bool pVisible)
+void Application::setShowCursor(const bool pVisible)
 {
 	ShowCursor(pVisible);
 }
 
-bool Application::hasWindowClosed()
+bool Application::hasWindowClosed() const
 {
 	return glfwWindowShouldClose(m_window) == true;
 }

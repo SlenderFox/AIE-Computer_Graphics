@@ -2,6 +2,8 @@
 #include "Application.h"
 #include <glm/ext.hpp>
 
+class FlyCamera;
+
 class Project3D : public Application
 {
 public:
@@ -11,10 +13,9 @@ public:
 	virtual bool startup();
 	virtual void shutdown();
 
-	virtual void update(float pDeltaTime);
+	virtual void update(const float pDeltaTime);
 	virtual void draw();
 
 protected:
-	glm::mat4		m_view;
-	glm::mat4		m_projection;
+	FlyCamera*		m_flyCamera;
 };

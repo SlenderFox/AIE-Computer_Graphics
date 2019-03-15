@@ -1,6 +1,7 @@
 #include "Project3D.h"
 #include <Gizmos.h>
 #include <glm/glm.hpp>
+#include "FlyCamera.h"
 
 using aie::Gizmos;
 
@@ -16,6 +17,8 @@ bool Project3D::startup()
 {
 	Gizmos::create(65535U, 65535U, 255U, 255U);
 
+	m_flyCamera = new FlyCamera(5);
+
 	return true;
 }
 
@@ -23,13 +26,11 @@ void Project3D::shutdown()
 {
 }
 
-void Project3D::update(float pDeltaTime)
+void Project3D::update(const float pDeltaTime)
 {
 	Gizmos::clear();
 
-	float fov = 110.0f;
-	m_view = glm::lookAt(glm::vec3(10, 10, 10), glm::vec3(0), glm::vec3(0, 1, 0));
-	m_projection = glm::perspective((fov / 180) * glm::pi<float>(), 16 / 9.0f, 0.1f, 1000.0f);
+	m_flyCamera->update(pDeltaTime);
 }
 
 void Project3D::draw()
@@ -48,5 +49,5 @@ void Project3D::draw()
 		Gizmos::addLine(glm::vec3(10, 0, -10 + i), glm::vec3(-10, 0, -10 + i), i == 10 ? white : black);
 	}
 
-	Gizmos::draw(m_projection * m_view);
+	Gizmos::draw(m_flyCamera->getProjectionView());
 }
