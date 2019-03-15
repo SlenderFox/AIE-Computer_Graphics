@@ -122,14 +122,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\dep\aieutilities\Gizmos.cpp" />
+    <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\gl_core_4_4.c" />
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="..\src\Project3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dep\aieutilities\Gizmos.h" />
+    <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\gl_core_4_4.h" />
-    <ClInclude Include="Application.h" />
+    <ClInclude Include="..\src\Project3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
