@@ -1,7 +1,6 @@
 #include "Application.h"
 #include <gl_core_4_4.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include <iostream>
 #include <Gizmos.h>
 
@@ -17,7 +16,7 @@ Application::~Application()
 
 bool Application::createWindow(const char* pTitle, const unsigned int pWidth, const unsigned int pHeight, const bool pFullscreen)
 {
-	if (glfwInit() == false)
+	if (glfwInit() == GL_FALSE)
 		return false;
 
 	m_window = glfwCreateWindow(pWidth, pHeight, pTitle, (pFullscreen ? glfwGetPrimaryMonitor() : nullptr ), nullptr);
@@ -125,7 +124,7 @@ void Application::setShowCursor(const bool pVisible)
 
 bool Application::hasWindowClosed() const
 {
-	return glfwWindowShouldClose(m_window) == true;
+	return glfwWindowShouldClose(m_window) == GL_TRUE;
 }
 
 unsigned int Application::getWindowWidth() const

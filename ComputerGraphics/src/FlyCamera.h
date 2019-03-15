@@ -1,6 +1,8 @@
 #pragma once
 #include "Camera.h"
 
+struct GLFWwindow;
+
 class FlyCamera : public Camera
 {
 public:
@@ -8,7 +10,7 @@ public:
 	FlyCamera(float pSpeed);
 	~FlyCamera();
 
-	virtual void update(float pDeltaTime);
+	virtual void update(float pDeltaTime, GLFWwindow* pWindow);
 
 	void setSpeed(const float pSpeed) { m_speed = pSpeed; }
 
