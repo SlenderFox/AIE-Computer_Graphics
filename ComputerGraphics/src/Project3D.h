@@ -4,6 +4,12 @@
 
 class FlyCamera;
 
+struct KeyFrame
+{
+	glm::vec3 position;
+	glm::quat rotation;
+};
+
 class Project3D : public Application
 {
 public:
@@ -18,4 +24,15 @@ public:
 
 protected:
 	FlyCamera*		m_flyCamera;
+
+	glm::vec3		m_positions[2];
+	glm::quat		m_rotations[2];
+
+	KeyFrame		m_hipFrames[2];
+	KeyFrame		m_kneeFrames[2];
+	KeyFrame		m_ankleFrames[2];
+
+	glm::mat4		m_hipBone;
+	glm::mat4		m_kneeBone;
+	glm::mat4		m_ankleBone;
 };

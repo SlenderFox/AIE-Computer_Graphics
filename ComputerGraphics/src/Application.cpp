@@ -1,7 +1,7 @@
 #include "Application.h"
 #include <gl_core_4_4.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include <cstdio>
 #include <Gizmos.h>
 
 using aie::Gizmos;
