@@ -130,11 +130,12 @@
     <ClCompile Include="..\dep\aieutilities\Texture.cpp" />
     <ClCompile Include="..\src\Application.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\Cube.cpp" />
     <ClCompile Include="..\src\FlyCamera.cpp" />
     <ClCompile Include="..\src\gl_core_4_4.c" />
+    <ClCompile Include="..\src\LegDemo.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Project3D.cpp" />
-    <ClCompile Include="Cube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dep\aieutilities\Gizmos.h" />
@@ -145,10 +146,12 @@
     <ClInclude Include="..\dep\aieutilities\tiny_obj_loader.h" />
     <ClInclude Include="..\src\Application.h" />
     <ClInclude Include="..\src\Camera.h" />
+    <ClInclude Include="..\src\Cube.h" />
     <ClInclude Include="..\src\FlyCamera.h" />
     <ClInclude Include="..\src\gl_core_4_4.h" />
+    <ClInclude Include="..\src\KeyFrame.h" />
+    <ClInclude Include="..\src\LegDemo.h" />
     <ClInclude Include="..\src\Project3D.h" />
-    <ClInclude Include="Cube.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

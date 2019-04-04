@@ -1,14 +1,12 @@
 #pragma once
 #include "Application.h"
 #include <glm/ext.hpp>
+#include "Shader.h"
+#include "OBJMesh.h"
 
 class FlyCamera;
-
-struct KeyFrame
-{
-	glm::vec3 position;
-	glm::quat rotation;
-};
+class Cube;
+class LegDemo;
 
 class Project3D : public Application
 {
@@ -23,16 +21,27 @@ public:
 	virtual void draw();
 
 protected:
-	FlyCamera*		m_flyCamera;
+	FlyCamera*					m_flyCamera;
 
-	glm::vec3		m_positions[2];
-	glm::quat		m_rotations[2];
+	Cube*						m_cube;
+	LegDemo*					m_rightLeg;
+	LegDemo*					m_leftLeg;
 
-	KeyFrame		m_hipFrames[2];
-	KeyFrame		m_kneeFrames[2];
-	KeyFrame		m_ankleFrames[2];
+	aie::ShaderProgram		m_bunnyShaderProgram;
+	aie::OBJMesh				m_bunnyMesh;
+	glm::mat4					m_bunnyTransform;
 
-	glm::mat4		m_hipBone;
-	glm::mat4		m_kneeBone;
-	glm::mat4		m_ankleBone;
+	aie::ShaderProgram		m_spearShaderProgram;
+	aie::OBJMesh				m_spearMesh;
+	glm::mat4					m_spearTransform;
+
+	struct Light
+	{
+		glm::vec3 direction;
+		glm::vec3 diffuse;
+		glm::vec3 specular;
+	};
+
+	Light							m_light;
+	glm::vec3					m_ambientLight;
 };

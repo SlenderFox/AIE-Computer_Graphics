@@ -15,10 +15,12 @@ public:
 	void setPerspective(const float pFov, const float pAspectRatio, const float pNear, const float pFar);
 	void setLookAt(const glm::vec3 pFrom, const glm::vec3 pTo, const glm::vec3 pUp);
 	void setPosition(const glm::vec3 pPosition);
-	glm::mat4 getWorldTransform() const;
-	glm::mat4 getView() const;
-	glm::mat4 getProjection() const;
-	glm::mat4 getProjectionView() const;
+	void setRotation(glm::mat3 pRotations);
+
+	glm::mat4 getWorldTransform() const { return m_worldTransform; }
+	glm::mat4 getView() const { return m_viewTransform; }
+	glm::mat4 getProjection() const { return m_projectionTransform; }
+	glm::mat4 getProjectionView() const { return m_projectionView; }
 
 protected:
 	void updateProjectionViewTransform();

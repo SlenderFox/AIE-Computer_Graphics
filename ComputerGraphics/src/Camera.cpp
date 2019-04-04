@@ -29,24 +29,12 @@ void Camera::setPosition(const glm::vec3 pPosition)
 	m_viewTransform = glm::inverse(m_worldTransform);
 }
 
-glm::mat4 Camera::getWorldTransform() const
+void Camera::setRotation(glm::mat3 pRotations)
 {
-	return m_worldTransform;
-}
-
-glm::mat4 Camera::getView() const
-{
-	return m_viewTransform;
-}
-
-glm::mat4 Camera::getProjection() const
-{
-	return m_projectionTransform;
-}
-
-glm::mat4 Camera::getProjectionView() const
-{
-	return m_projectionView;
+	m_worldTransform[0] = glm::vec4(pRotations[0], 0);
+	m_worldTransform[1] = glm::vec4(pRotations[1], 0);
+	m_worldTransform[2] = glm::vec4(pRotations[2], 0);
+	m_viewTransform = glm::inverse(m_worldTransform);
 }
 
 void Camera::updateProjectionViewTransform()

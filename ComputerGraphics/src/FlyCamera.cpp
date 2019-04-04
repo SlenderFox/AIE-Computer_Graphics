@@ -35,5 +35,12 @@ void FlyCamera::update(float pDeltaTime, GLFWwindow* pWindow)
 	if (glfwGetKey(pWindow, aie::INPUT_KEY_Q) == GLFW_PRESS)
 		setPosition(m_worldTransform[3] + m_vSpeed * -m_worldTransform[1] * pDeltaTime);
 
+	//// CameraRotation
+	//// Up
+	//if (glfwGetKey(pWindow, aie::INPUT_KEY_UP) == GLFW_PRESS)
+	//{
+
+	//}
+
 	updateProjectionViewTransform();
 }
