@@ -5,6 +5,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include "FlyCamera.h"
+#include "DirectionalLight.h"
 #include "Cube.h"
 #include "LegDemo.h"
 
@@ -28,9 +29,10 @@ bool Project3D::startup()
 
 	Gizmos::create(65535U, 65535U, 255U, 255U);
 
-	m_light.diffuse = { 1, 1, 1 };
-	m_light.specular = { 1, 1, 1 };
-	m_ambientLight = { 0.25f, 0.25f, 0.25f, };
+	m_light = new DirectionalLight();
+	m_light->m_diffuse = { 1, 1, 1 };
+	m_light->m_specular = { 1, 1, 1 };
+	m_ambientLight = { 0.5f, 0.5f, 0.5f, };
 
 	// Initialising flyCamera
 	m_flyCamera = new FlyCamera(5, 4);
@@ -38,8 +40,8 @@ bool Project3D::startup()
 	m_flyCamera->setPerspective(glm::pi<float>() * (75.0f / 180), 16 / 9.0f, 0.1f, 1000.0f);
 
 	m_cube = new Cube();
-	m_rightLeg = new LegDemo(vec3(5, 8, 0));
-	m_leftLeg = new LegDemo(vec3(7, 8, 0));
+	m_rightLeg = new LegDemo(vec3(-7, 5, -2));
+	m_leftLeg = new LegDemo(vec3(-5, 5, -2));
 
 	// Initialising bunny shader program
 	m_bunnyShaderProgram.loadShader(aie::eShaderStage::VERTEX, "../Assets/shaders/phong.vert");
@@ -62,12 +64,36 @@ bool Project3D::startup()
 		0.5f, 0, 0, 0,
 		0, 0.5f, 0, 0,
 		0, 0, 0.5f, 0,
-		0, 0, -5, 1
+		0, 0, -8, 1
+	};
+
+	// Initialising dragon shader program
+	m_dragonShaderProgram.loadShader(aie::eShaderStage::VERTEX, "../Assets/shaders/phong.vert");
+	m_dragonShaderProgram.loadShader(aie::eShaderStage::FRAGMENT, "../Assets/shaders/phong.frag");
+
+	if (m_dragonShaderProgram.link() == false)
+	{
+		printf("Dragon shader Error: %s\n", m_dragonShaderProgram.getLastError());
+		return false;
+	}
+
+	if (m_dragonMesh.load("../Assets/stanford/Dragon.obj", false, true) == false)
+	{
+		printf("Dragon Mesh Error!\n");
+		return false;
+	}
+
+	m_dragonTransform =
+	{
+		0.5f, 0, 0, 0,
+		0, 0.5f, 0, 0,
+		0, 0, 0.5f, 0,
+		6, 0, -8, 1
 	};
 
 	// Initialising spear shader program
-	m_spearShaderProgram.loadShader(aie::eShaderStage::VERTEX, "../Assets/shaders/phong.vert");
-	m_spearShaderProgram.loadShader(aie::eShaderStage::FRAGMENT, "../Assets/shaders/phong.frag");
+	m_spearShaderProgram.loadShader(aie::eShaderStage::VERTEX, "../Assets/shaders/normalmap.vert");
+	m_spearShaderProgram.loadShader(aie::eShaderStage::FRAGMENT, "../Assets/shaders/normalmap.frag");
 
 	if (m_spearShaderProgram.link() == false)
 	{
@@ -95,6 +121,7 @@ bool Project3D::startup()
 void Project3D::shutdown()
 {
 	delete m_flyCamera;
+	delete m_light;
 	delete m_cube;
 	delete m_rightLeg;
 }
@@ -114,7 +141,7 @@ void Project3D::update(const float pDeltaTime)
 	m_rightLeg->update(pDeltaTime, sinTimeStep);
 	m_leftLeg->update(pDeltaTime, invSinTimeStep);
 
-	m_light.direction = glm::normalize(vec3(glm::cos(time * 2), glm::sin(time * 2), 0));
+	m_light->m_direction = glm::normalize(vec3(glm::cos(time * 2), glm::sin(time * 2), glm::sin(time * 2)));
 
 	// Updates the cameras view
 	m_flyCamera->update(pDeltaTime, m_window);
@@ -140,37 +167,56 @@ void Project3D::draw()
 	// Updating bunny shader program
 	m_bunnyShaderProgram.bind();
 
+	// Bind positional data
 	mat4 bunnyPV = m_flyCamera->getProjectionView() * m_bunnyTransform;
 	m_bunnyShaderProgram.bindUniform("ProjectionViewModel", bunnyPV);
+	m_bunnyShaderProgram.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_spearTransform)));
+	m_bunnyShaderProgram.bindUniform("ModelMatrix", m_bunnyTransform);
+	m_bunnyShaderProgram.bindUniform("CameraPosition", m_flyCamera->getWorldTransform()[3]);
 
 	// Bind light
 	m_bunnyShaderProgram.bindUniform("Ia", m_ambientLight);
-	m_bunnyShaderProgram.bindUniform("Id", m_light.diffuse);
-	m_bunnyShaderProgram.bindUniform("Is", m_light.specular);
-	m_bunnyShaderProgram.bindUniform("LightDirection", m_light.direction);
-
-	m_bunnyShaderProgram.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_spearTransform)));
-	//m_bunnyShaderProgram.bindUniform("ModelMatrix", m_bunnyTransform);
-	//m_bunnyShaderProgram.bindUniform("cameraPosition", m_flyCamera->getWorldTransform()[3]);
+	m_bunnyShaderProgram.bindUniform("Id", m_light->m_diffuse);
+	m_bunnyShaderProgram.bindUniform("Is", m_light->m_specular);
+	m_bunnyShaderProgram.bindUniform("LightDirection", m_light->m_direction);
 
 	// Draws bunny mesh
 	m_bunnyMesh.draw();
 
+	// Updating dragon shader program
+	m_dragonShaderProgram.bind();
+
+	// Bind positional data
+	mat4 dragonPV = m_flyCamera->getProjectionView() * m_dragonTransform;
+	m_dragonShaderProgram.bindUniform("ProjectionViewModel", dragonPV);
+	m_dragonShaderProgram.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_spearTransform)));
+	m_dragonShaderProgram.bindUniform("ModelMatrix", m_dragonTransform);
+	m_dragonShaderProgram.bindUniform("CameraPosition", m_flyCamera->getWorldTransform()[3]);
+
+	// Bind light
+	m_dragonShaderProgram.bindUniform("Ia", m_ambientLight);
+	m_dragonShaderProgram.bindUniform("Id", m_light->m_diffuse);
+	m_dragonShaderProgram.bindUniform("Is", m_light->m_specular);
+	m_dragonShaderProgram.bindUniform("LightDirection", m_light->m_direction);
+
+	// Draws dragon mesh
+	m_dragonMesh.draw();
+
 	// Updating spear shader program
 	m_spearShaderProgram.bind();
 
+	// Bind positional data
 	mat4 spearPV = m_flyCamera->getProjectionView() * m_spearTransform;
 	m_spearShaderProgram.bindUniform("ProjectionViewModel", spearPV);
+	m_spearShaderProgram.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_spearTransform)));
+	m_spearShaderProgram.bindUniform("ModelMatrix", m_spearTransform);
+	m_spearShaderProgram.bindUniform("CameraPosition", m_flyCamera->getWorldTransform()[3]);
 
 	// Bind light
 	m_spearShaderProgram.bindUniform("Ia", m_ambientLight);
-	m_spearShaderProgram.bindUniform("Id", m_light.diffuse);
-	m_spearShaderProgram.bindUniform("Is", m_light.specular);
-	m_spearShaderProgram.bindUniform("LightDirection", m_light.direction);
-
-	m_spearShaderProgram.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_spearTransform)));
-	//m_spearShaderProgram.bindUniform("ModelMatrix", m_spearTransform);
-	//m_spearShaderProgram.bindUniform("cameraPosition", m_flyCamera->getWorldTransform()[3]);
+	m_spearShaderProgram.bindUniform("Id", m_light->m_diffuse);
+	m_spearShaderProgram.bindUniform("Is", m_light->m_specular);
+	m_spearShaderProgram.bindUniform("LightDirection", m_light->m_direction);
 
 	// Draws soulspear mesh
 	m_spearMesh.draw();

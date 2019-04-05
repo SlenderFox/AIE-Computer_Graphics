@@ -54,20 +54,20 @@ LegDemo::~LegDemo()
 void LegDemo::update(float pDeltaTime, float pTimeStep)
 {
 	// Animating the hip
-	glm::vec3 hipLerp = (1.0f - pTimeStep) * (m_hipFrames[0].position * 0.5f)
-		+ (pTimeStep * (m_hipFrames[1].position * 0.5f));
+	glm::vec3 hipLerp = (1.0f - pTimeStep) * (m_hipFrames[0].position)
+		+ (pTimeStep * (m_hipFrames[1].position));
 	glm::quat hipSlerp = glm::slerp(m_hipFrames[0].rotation, m_hipFrames[1].rotation, pTimeStep);
 	m_hipBone = glm::translate(hipLerp) * glm::toMat4(hipSlerp);
 
 	// Animating the knee
-	glm::vec3 kneeLerp = (1.0f - pTimeStep) * (m_kneeFrames[0].position * 0.5f)
-		+ (pTimeStep * (m_kneeFrames[1].position * 0.5f));
+	glm::vec3 kneeLerp = (1.0f - pTimeStep) * (m_kneeFrames[0].position)
+		+ (pTimeStep * (m_kneeFrames[1].position));
 	glm::quat kneeSlerp = glm::slerp(m_kneeFrames[0].rotation, m_kneeFrames[1].rotation, pTimeStep);
 	m_kneeBone = glm::translate(kneeLerp) * glm::toMat4(kneeSlerp);
 
 	// Animating the ankle
-	glm::vec3 ankleLerp = (1.0f - pTimeStep) * (m_ankleFrames[0].position * 0.5f)
-		+ (pTimeStep * (m_ankleFrames[1].position * 0.5f));
+	glm::vec3 ankleLerp = (1.0f - pTimeStep) * (m_ankleFrames[0].position)
+		+ (pTimeStep * (m_ankleFrames[1].position));
 	glm::quat ankleSlerp = glm::slerp(m_ankleFrames[0].rotation, m_ankleFrames[1].rotation, pTimeStep);
 	m_ankleBone = glm::translate(ankleLerp) * glm::toMat4(ankleSlerp);
 
@@ -81,9 +81,9 @@ void LegDemo::update(float pDeltaTime, float pTimeStep)
 	// Draws all the cubes in
 	glm::vec4 half(0.5f);
 	glm::vec4 pink(1, 0, 1, 1);
-	//Gizmos::addTransform(m_hipBone);
-	//Gizmos::addTransform(m_kneeBone);
-	//Gizmos::addTransform(m_ankleBone);
+	aie::Gizmos::addTransform(m_hipBone);
+	aie::Gizmos::addTransform(m_kneeBone);
+	aie::Gizmos::addTransform(m_ankleBone);
 	aie::Gizmos::addAABBFilled(hipPos, half, pink, &m_hipBone);
 	aie::Gizmos::addAABBFilled(kneePos, half, pink, &m_kneeBone);
 	aie::Gizmos::addAABBFilled(anklePos, half, pink, &m_ankleBone);

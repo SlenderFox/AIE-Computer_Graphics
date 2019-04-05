@@ -1,4 +1,4 @@
-// a normal map vertex shader
+// A normal map vertex shader
 #version 410
 
 layout(location = 0) in vec4 Position;
@@ -26,6 +26,6 @@ void main()
 	vPosition = ModelMatrix * Position;
 	vNormal = NormalMatrix * Normal.xyz;
 	vTangent = NormalMatrix * Tangent.xyz;
-	vBiTangent = cross( vNormal, vTangent ) * Tangent.w;
+	vBiTangent = cross(vNormal, vTangent) * Tangent.w;
 	gl_Position = ProjectionViewModel * Position;
 }

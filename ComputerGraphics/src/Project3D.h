@@ -5,6 +5,7 @@
 #include "OBJMesh.h"
 
 class FlyCamera;
+class DirectionalLight;
 class Cube;
 class LegDemo;
 
@@ -23,25 +24,25 @@ public:
 protected:
 	FlyCamera*					m_flyCamera;
 
+	DirectionalLight*			m_light;
+	glm::vec3					m_ambientLight;
+
 	Cube*						m_cube;
 	LegDemo*					m_rightLeg;
 	LegDemo*					m_leftLeg;
 
+	// Classes required for the bunny
 	aie::ShaderProgram		m_bunnyShaderProgram;
 	aie::OBJMesh				m_bunnyMesh;
 	glm::mat4					m_bunnyTransform;
 
+	// Classes required for the dragon
+	aie::ShaderProgram		m_dragonShaderProgram;
+	aie::OBJMesh				m_dragonMesh;
+	glm::mat4					m_dragonTransform;
+
+	// Classes required for the spear
 	aie::ShaderProgram		m_spearShaderProgram;
 	aie::OBJMesh				m_spearMesh;
 	glm::mat4					m_spearTransform;
-
-	struct Light
-	{
-		glm::vec3 direction;
-		glm::vec3 diffuse;
-		glm::vec3 specular;
-	};
-
-	Light							m_light;
-	glm::vec3					m_ambientLight;
 };
