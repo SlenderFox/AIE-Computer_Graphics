@@ -28,9 +28,9 @@ void main()
 	float lambertTerm = max(0, min(1, dot(N, -L)));
 
 	// Calculate view vector and reflection vector
-	vec3 V = normalize(CameraPosition + vPosition.xyz);
+	vec3 V = normalize(CameraPosition - vPosition.xyz);
 	vec3 R = reflect(L, N);
-	R *= lambertTerm + 0.1f;
+	R *= lambertTerm + 0.05f;
 
 	// Calculate specular term
 	float specularTerm = pow(max(0, dot(R, V)), specularPower);

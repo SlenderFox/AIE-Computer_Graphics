@@ -21,6 +21,7 @@ public:
 	glm::mat4 getView() const { return m_viewTransform; }
 	glm::mat4 getProjection() const { return m_projectionTransform; }
 	glm::mat4 getProjectionView() const { return m_projectionView; }
+	glm::vec3 getPosition() const { return m_worldTransform[3]; }
 
 protected:
 	void updateProjectionViewTransform();

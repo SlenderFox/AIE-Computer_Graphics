@@ -31,6 +31,6 @@ void Cube::update(float pDeltaTime, float pTimeStep)
 	glm::quat boxSlerp = glm::slerp(m_keyFrames[0].rotation, m_keyFrames[1].rotation, pTimeStep);
 	glm::mat4 boxTransform = glm::translate(boxLerp) * glm::toMat4(boxSlerp);
 	//Draws the cube in
-	aie::Gizmos::addTransform(boxTransform);
+	//aie::Gizmos::addTransform(boxTransform);
 	aie::Gizmos::addAABBFilled(glm::vec3(0), glm::vec3(0.5f), glm::vec4(0.55f, 0.05f, 0.05f, 1), &boxTransform);
 }

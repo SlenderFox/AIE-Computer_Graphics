@@ -81,9 +81,9 @@ void LegDemo::update(float pDeltaTime, float pTimeStep)
 	// Draws all the cubes in
 	glm::vec4 half(0.5f);
 	glm::vec4 pink(1, 0, 1, 1);
-	aie::Gizmos::addTransform(m_hipBone);
-	aie::Gizmos::addTransform(m_kneeBone);
-	aie::Gizmos::addTransform(m_ankleBone);
+	//aie::Gizmos::addTransform(m_hipBone);
+	//aie::Gizmos::addTransform(m_kneeBone);
+	//aie::Gizmos::addTransform(m_ankleBone);
 	aie::Gizmos::addAABBFilled(hipPos, half, pink, &m_hipBone);
 	aie::Gizmos::addAABBFilled(kneePos, half, pink, &m_kneeBone);
 	aie::Gizmos::addAABBFilled(anklePos, half, pink, &m_ankleBone);
