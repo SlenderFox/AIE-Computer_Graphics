@@ -21,6 +21,11 @@ Project3D::Project3D()
 
 Project3D::~Project3D()
 {
+	delete m_flyCamera;
+	delete m_light;
+	delete m_cube;
+	delete m_rightLeg;
+	delete m_leftLeg;
 }
 
 bool Project3D::startup()
@@ -130,11 +135,7 @@ bool Project3D::startup()
 
 void Project3D::shutdown()
 {
-	delete m_flyCamera;
-	delete m_light;
-	delete m_cube;
-	delete m_rightLeg;
-	delete m_leftLeg;
+
 }
 
 void Project3D::update(const float pDeltaTime)

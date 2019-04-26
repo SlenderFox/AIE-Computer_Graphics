@@ -4,7 +4,14 @@
 class DirectionalLight
 {
 public:
+	/*
+		@brief The default constructor
+	*/
 	DirectionalLight();
+
+	/*
+		@brief The default destructor
+	*/
 	~DirectionalLight();
 
 	glm::vec3		m_direction;

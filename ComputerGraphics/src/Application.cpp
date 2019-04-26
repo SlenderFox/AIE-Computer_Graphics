@@ -12,6 +12,7 @@ Application::Application() : m_window(nullptr), m_gameOver(false), m_fps(0)
 
 Application::~Application()
 {
+	delete m_window;
 }
 
 bool Application::createWindow(const char* pTitle, const unsigned int pWidth, const unsigned int pHeight, const bool pFullscreen)
